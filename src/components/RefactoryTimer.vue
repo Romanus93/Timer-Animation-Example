@@ -12,15 +12,6 @@
         <div class="start" v-if="!timer" @click="startTimer">
           <i data-feather="play" ></i>
         </div>
-        <div class="pause"  v-if="timer" @click="stopTimer">
-          <i data-feather="square"></i>
-        </div>
-        <div class="stop" v-if="resetButton" @click="resetTimer">
-          <i data-feather="rotate-cw"></i>
-        </div>
-        <div class="edit" v-if="!timer" @click="editTimer">
-          <i data-feather="edit-2"></i>
-        </div>
       </div>
       <div class="input">
         <input type="text" v-if="!zeroTime" >
@@ -31,68 +22,60 @@
 
 <script>
   export default {
+    props: {
+      settingTime: {
+        type: [ Number, String ],
+        required: true 
+      }
+    },
     data() {
       return {
         timer: null,
-        totalTime: (0.1 * 60),
-        resetButton: false,
+        totalTime: this.settingTime,
         title: "Countdown to rest time!",
-        edit: false,
         isVisible: true
       }
     },
     methods: {
       startTimer: function() {
-        this.timer = setInterval(() => this.countdown(), 1000); //1000ms = 1 second
+        this.timer = setInterval(() => this.totalTime--, 1000); //1000ms = 1 second
         this.resetButton = true;
       },
-      stopTimer: function() {
-        clearInterval(this.timer);
-        this.timer = null;
-        this.resetButton = true;
-      },
-      // resetTimer: function() {
-      //   this.totalTime = (25 * 60);
-      //   clearInterval(this.timer);
-      //   this.timer = null;
-      //   this.resetButton = false;
-      // },
-      // editTimer: function() {
-      //   this.edit = true;
-      // },
-      padTime: function(time){
+      twoDigitTime: function(time){
+        console.log(time);
         return (time < 10 ? '0' : '') + time;
-      },
-      countdown: function() {
-        this.totalTime--;
       }
+      // countdown: function() {
+      //   this.totalTime--;
+      // }
     },
     computed: {
       hours: function(){
         const hours = Math.floor(this.totalTime / (60*60))
-        return this.padTime(hours);
+        return this.twoDigitTime(hours);
       },
       minutes: function(){
         const minutes = Math.floor((this.totalTime - (this.hours * 60 * 60)) / 60);
-        return this.padTime(minutes);
+        return this.twoDigitTime(minutes);
       },
       seconds: function() {
         const seconds = this.totalTime - (this.hours * 60 *60) - (this.minutes * 60);
-        return this.padTime(seconds);
+        return this.twoDigitTime(seconds);
       },
-      zeroTime: function() {
-        if(this.totalTime == 2) {
-          clearInterval(this.timer)
-          return true;
-        } else {
-          return false;
-        }
-      }
+      // zeroTime: function() {
+      //   console.log('computed',this.totalTime);
+      //   if(this.totalTime == 2) {
+      //     clearInterval(this.timer)
+      //     return true;
+      //   } else {
+      //     return false;
+      //   }
+      // }
     },
     watch: {
       totalTime(newValue, oldValue) {
-        if(newValue == 0){
-          // this.isVisible = false;
+        if(newValue == 2){
+          console.log('watch',this.totalTime);
           clearInterval(this.timer)
           this.totalTime = 0;
         }
@@ -102,7 +85,9 @@
       this.startTimer();
     },
     beforeUpdate() {
-      (this.totalTime != 0)||(clearInterval(this.timer))
+      console.log('beforeUpdate',this.totalTime );
+      // (this.totalTime == 3600) && this.startTimer();
+      // (this.totalTime != 2)||(clearInterval(this.timer));
     }
   }
 </script>

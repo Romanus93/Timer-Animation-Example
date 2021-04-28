@@ -7,12 +7,15 @@
     </div>
     <div class="box2">
       <h2>input</h2>
-      <span>{{ _h }} : {{ _m }} : {{ _s }}</span> <span style="margin-left: 100px"> {{ totalTime }}</span>
+      <span>{{ _h }} : {{ _m }} : {{ _s }}</span> <span style="margin-left: 100px"> {{ settingTime }}</span>
     </div>
     <div class="box3">
       <button type="button" @click="setTimer"></button>
       <h2>output</h2>
       <span>{{ outPutH }} : {{ outPutM }} : {{ outPutS }}</span>
+    </div>
+    <div class="container">
+      <RefactoryTimer v-if="isVisual" :settingTime="settingTime" />
     </div>
     <div class="container">
       <Timer />
@@ -22,9 +25,10 @@
 
 <script>
 import Timer from '../components/Timer.vue'
+import RefactoryTimer from '../components/RefactoryTimer.vue'
 
   export default {
-    components: { Timer },
+    components: { Timer, RefactoryTimer },
     data() {
       return {
         ti: 1,
@@ -33,7 +37,9 @@ import Timer from '../components/Timer.vue'
         s: '',
         outPutH: '00',
         outPutM: '00',
-        outPutS: '00'
+        outPutS: '00',
+        propsBoolean: false,
+        isVisual: false
       }
     },
     computed: {
@@ -48,7 +54,7 @@ import Timer from '../components/Timer.vue'
         (this.s > 60) && (this.s = Math.floor(this.s % 60))
         return Math.floor(this.s%60)
       },
-      totalTime() {
+      settingTime() {
         let fullTime = this._h*3600 + this._m*60 + this._s;
         localStorage.setItem('time', fullTime);
         return fullTime; 
@@ -60,6 +66,10 @@ import Timer from '../components/Timer.vue'
         this.outPutH = Math.floor(fullTime/3600);
         this.outPutM = Math.floor((fullTime-this.outPutH*3600)/60);
         this.outPutS = fullTime-this.outPutH*3600-this.outPutM*60;
+        this.isVisual = true;
+      },
+      trueBtn() {
+        this.propsBoolean = true;
       }
     },  
   }
