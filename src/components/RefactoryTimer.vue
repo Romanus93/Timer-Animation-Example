@@ -45,9 +45,6 @@
         console.log(time);
         return (time < 10 ? '0' : '') + time;
       }
-      // countdown: function() {
-      //   this.totalTime--;
-      // }
     },
     computed: {
       hours: function(){

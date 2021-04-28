@@ -34,7 +34,7 @@
     data() {
       return {
         timer: null,
-        totalTime: (0.1 * 60),
+        totalTime: (0.2 * 60),
         resetButton: false,
         title: "Countdown to rest time!",
         edit: false,
@@ -115,11 +115,9 @@ html {
 .container {
   height: 100vh;
   width: 100%;
-  
   display: flex;
   align-items: center;
   justify-content: center;
-  
   background-color: #222831;
 }
   #app {
