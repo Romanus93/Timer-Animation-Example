@@ -77,6 +77,7 @@
       }
     },
     beforeUpdate() {
+      
       console.log(this.seconds);
       console.log(typeof this.seconds);
     }

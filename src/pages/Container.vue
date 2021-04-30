@@ -11,9 +11,12 @@
       <div class="wrapper2 animation"></div>
     </div>
     <div class="box1">
-      <input type="number" placeholder="00" min="0" v-model.number="h" oninput="this.value = Math.floor(Math.abs(this.value))" />
-      <input type="number" placeholder="00" max="60" v-model.number="m" oninput="this.value = (Math.floor(Math.abs(this.value))%60)" />
-      <input type="number" placeholder="00" max="60" v-model.number="s" oninput="this.value = (Math.floor(Math.abs(this.value))%60)" />
+      <label for="hour"></label>
+      <input id="hour" type="number" placeholder="00" min="0" v-model.number="h" oninput="this.value = Math.abs(this.value)" />
+      <label for="minute"></label>
+      <input id="minute" type="number" placeholder="00" min="0" v-model.number="m" oninput="this.value = Math.floor(this.value)" />
+      <label for="second"></label>
+      <input id="second" type="number" placeholder="00" min="0" v-model.number="s" oninput="this.value = Math.abs(this.value)" />
     </div>
     <div class="box2">
       <h2>input</h2>
@@ -30,21 +33,29 @@
     <div class="container">
       <Timer />
     </div>
+    <div>
+      <Animation />
+    </div>
   </div>
 </template>
 
 <script>
 import Timer from '../components/Timer.vue'
 import RefactoryTimer from '../components/RefactoryTimer.vue'
+import Animation from '../components/Animation.vue'
 
   export default {
-    components: { Timer, RefactoryTimer },
+    components: {
+      Timer,
+      RefactoryTimer,
+      Animation
+    },
     data() {
       return {
         ti: 1,
-        h: '',
-        m: '',
-        s: '',
+        h: 0,
+        m: 0,
+        s: 0,
         outPutH: '00',
         outPutM: '00',
         outPutS: '00',
@@ -57,12 +68,27 @@ import RefactoryTimer from '../components/RefactoryTimer.vue'
         return Math.floor(this.h)
       },
       _m() {
-        (this.m > 60) && (this.m = Math.floor(this.s % 60))
-        return Math.floor(this.m%60)
+        if(this.m >= 60) {
+          this.m = 0;
+          console.log('if -m');
+          return this.m
+        } else {
+          console.log('else if - m');
+          this.m = Math.floor(this.m);
+          return Math.floor(this.m)
+        }
       },
       _s() {
-        (this.s > 60) && (this.s = Math.floor(this.s % 60))
-        return Math.floor(this.s%60)
+        if(this.s >= 60) {
+          this.s = 0;
+          console.log('if -s');
+          return this.s
+        } else {
+          console.log('else if - s');
+          this.s = Math.floor(this.s)
+          console.log('else if - s');
+          return Math.floor(this.s)
+        }
       },
       settingTime() {
         let fullTime = this._h*3600 + this._m*60 + this._s;
@@ -80,7 +106,22 @@ import RefactoryTimer from '../components/RefactoryTimer.vue'
       },
       trueBtn() {
         this.propsBoolean = true;
+      },
+      fixM () {
+        this.m = Math.floor(this.m % 60);
       }
+    },
+    created () {
+      console.log('create');
+      console.log(this.s);
+    },
+    mounted () {
+      console.log('mount');
+      console.log(this.s);
+    },
+    beforeUpdate () {
+      console.log('beforeUpdate');
+      console.log(this.s);
     },  
   }
 </script>
@@ -159,6 +200,7 @@ import RefactoryTimer from '../components/RefactoryTimer.vue'
   /*------*/
   .rotateY {
     animation: rotationY 8s infinite linear;
+    perspective: 1000px;
   }
 
   @keyframes rotationY {
