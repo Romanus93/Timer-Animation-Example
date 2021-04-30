@@ -1,33 +1,24 @@
 <template>
 <div>
   <div class="animation-box">
-    <div class="image-background">
-      <div class="box1" v-show="z">
+    <div class="image-background" :class="{ dark: isActive }">
+      <div class="box1">
         <div class="image-egg flex">
-          <img class="slight-shaking" src="../assets/white-egg.svg" alt="">
+          <img class="slight-shaking" src="../assets/white-egg.svg" alt="" v-show="z">
+          <img class="medium-shaking" src="../assets/craked-egg.svg" alt="" v-show="a">
+          <img class="strong-shaking" src="../assets/craked-egg.svg" alt="" v-show="b">
+          <img class="stronger-shaking" src="../assets/craked-egg.svg" alt="" v-show="c">
+          <img  src="../assets/hatched-chick.svg" alt="" v-show="chick">
+          <img  src="../assets/broken-egg.svg" alt="" v-show="brokenEgg">
         </div>  
-      </div>
-      <div class="box1" v-show="a">
-        <div class="image-egg flex">
-          <img class="medium-shaking" src="../assets/craked-egg.svg" alt="">
-        </div>
-      </div>
-      <div class="box1" v-show="b">
-        <div class="image-egg flex">
-          <img class="strong-shaking" src="../assets/craked-egg.svg" alt="">
-        </div>
-      </div>
-      <div class="box1" v-show="c">
-        <div class="image-egg flex">
-          <img class="strong-shaking" src="../assets/craked-egg.svg" alt="">
-          <!-- <img class="stronger-shaking position opacity" src="../assets/craked-egg.svg" alt=""> -->
-        </div>
       </div>
     </div>
     <div style="display:flex; justify-content: space-around">
       <button type="button" @click="showA(true)"> 1.Lorem ipsum dolor sit. </button>
       <button type="button" @click="showB(true)"> 2.Lorem ipsum dolor sit. </button>
       <button type="button" @click="showC(true)"> 3.Lorem ipsum dolor sit. </button>
+      <button type="button" @click="showSuccess(true)"> 4.Lorem ipsum dolor sit. </button>
+      <button type="button" @click="showFailure(true)"> 5.Lorem ipsum dolor sit. </button>
     </div> 
   </div>
 </div>
@@ -42,7 +33,10 @@
         z: true,
         a: false,
         b: false,
-        c: false
+        c: false,
+        Chick: false,
+        brokenEgg: false,
+        isActive: false
       }
     },
     methods: {
@@ -60,6 +54,17 @@
       showC(param) {
         this.b = !param;
         this.c = param;
+        return
+      },
+      showSuccess(param) {
+        this.c = !param;
+        this.chick = param
+        return
+      },
+      showFailure(param) {
+        this.c = !param;
+        this.isActive = param;
+        this.brokenEgg = param;
         return
       }
     },
@@ -100,6 +105,10 @@ img {
   background-position: 33% 50%;
   background-size: contain;
   background-color: tomato;
+}
+
+.dark {
+  background-image: url("../assets/chicken-dark.svg");
 }
 
 .image-egg {
@@ -183,19 +192,19 @@ img {
 
 @keyframes stronger-shake {
   10%, 90% {
-    transform: translate3d(-10px, 10px, 0);
+    transform: translate3d(-10px, 12px, 0);
   }
   
   20%, 80% {
-    transform: translate3d(10px, -10px, 0);
+    transform: translate3d(10px, -11px, 0);
   }
 
   30%, 50%, 70% {
-    transform: translate3d(-10px, 10px, 0);
+    transform: translate3d(-10px, 11px, 0);
   }
 
   40%, 60% {
-    transform: translate3d(10px, -10px, 0);
+    transform: translate3d(10px, -12px, 0);
   }
 }
 </style>
