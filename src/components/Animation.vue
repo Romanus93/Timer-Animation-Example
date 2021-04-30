@@ -1,28 +1,8 @@
 <template>
-<div>
-  <div class="animation-box">
-    <div class="image-background" :class="{ dark: isActive }">
-      <div class="box1">
-        <div class="image-egg flex">
-          <!-- <img class="slight-shaking" :src="eggImage" v-show="z"> -->
-          <img :class="shakingAnimation" :src="eggImage" v-show="z">
-          <img class="y-move" src="../assets/hatched-chick.svg" alt="" v-show="chick">
-          <!-- <img class="medium-shaking" src="../assets/craked-egg.svg" alt="" v-show="a">
-          <img class="strong-shaking" src="../assets/craked-egg.svg" alt="" v-show="b">
-          <img class="stronger-shaking" src="../assets/craked-egg.svg" alt="" v-show="c">
-          <img class="stronger-shaking" src="../assets/broken-egg.svg" alt="" v-show="brokenEgg"> -->
-        </div>  
-      </div>
-    </div>
-    <div style="display:flex; justify-content: space-around">
-      <button type="button" @click="showA(true)"> 1.Lorem ipsum dolor sit. </button>
-      <button type="button" @click="showB(true)"> 2.Lorem ipsum dolor sit. </button>
-      <button type="button" @click="showC(true)"> 3.Lorem ipsum dolor sit. </button>
-      <button type="button" @click="showSuccess(true)"> 4.Lorem ipsum dolor sit. </button>
-      <button type="button" @click="showFailure(true)"> 5.Lorem ipsum dolor sit. </button>
-    </div> 
+  <div class="image-egg flex image-background" :class="{ 'sad-background-image': failure }">
+    <img :class="shakingAnimation" :src="eggImage" v-show="success">
+    <img class="translate-y" src="../assets/hatched-chick.svg" alt="" v-show="!success">
   </div>
-</div>
 </template>
 
 <script>
@@ -34,52 +14,34 @@
     },
     data() {
       return {
-        chick: false,
-        egg: false,
-        z: true,
-        a: false,
-        b: false,
-        c: false,
-        Chick: false,
-        brokenEgg: false,
-        isActive: false,
-        // ImageWhiteEgg: '/src/assets/white-egg.svg',
-        // ImageBrokenEgg: '/src/assets/broken-egg.svg'
+        success: true,
+        failure: false
       }
-    },
-    beforeMount () {
-      this.time;
     },
     computed: {
       eggImage() {
-        console.log(this.time);
         if(this.time > 20 || this.time === null) {
-          console.log('eggImage-1',this.time);
           return '/src/assets/white-egg.svg';
         } else if( this.time >= 1) {
-          console.log('eggComputed',this.time);
           return '/src/assets/craked-egg.svg';
         } else if( this.time == 0 ) {
-          setTimeout(()=>{this.z= false, this.chick=true},1000)
+          setTimeout(()=> this.happy= false, 1000)
           return '/src/assets/born-egg.svg'
         } else {
-          console.log('eggImage-2',this.time);
+          this.sad = true;
           return '/src/assets/broken-egg.svg'
         }
       },
       shakingAnimation() {
-        console.log('shakingAnimation', this.time);
-        if(this.time> 20 || this.time == null) {
+        if(this.time > 20 || this.time === null) {
           return {
             'slight-shaking': true 
           }
         } else if (this.time > 10) {
-          console.log('<= 20');
           return {
             'medium-shaking': true
           }
         } else if (this.time > 6) {
-          console.log('<11');
           return {
             'strong-shaking': true
           }
@@ -87,49 +49,15 @@
           return {
             'stronger-shaking': true
           }
+        } else if (this.time === 0) {
+          return undefined;
         } else {
-          return undefined
+          return {
+            'strong-shaking': true
+          }
         }
-      },
-    },
-    methods: {
-      showA(param) {
-        this.z = !param;
-        this.a = param;
-        return
-      },
-      showB(param) {
-        console.log('b');
-        this.a = !param;
-        this.b = param;
-        return
-      },
-      showC(param) {
-        this.b = !param;
-        this.c = param;
-        return
-      },
-      showSuccess(param) {
-        this.c = !param;
-        this.chick = param
-        return
-      },
-      showFailure(param) {
-        this.c = !param;
-        this.isActive = param;
-        this.brokenEgg = param;
-        return
-      },
-      beforeUpdate() {
-        console.log(this.shakingAnimation);
-      },
-      updated() {
-        console.log('update',this.time)
-      },
-      destroyed () {
-        console.log('destroyed',this.time);
-      },
-    },
+      }
+    }
   }
 </script>
 
@@ -144,21 +72,15 @@ img {
   width: 50%;
 }
 
-.animation-box {
-  width: 100%;
-  height: 100%;
-  border: black 5px solid;
-}
-
 .flex {
   display: flex;
 }
 
-.box1 {
+.image-egg {
   border: olivedrab 5px solid;
-  display: inline-block;
   width: 100%;
   height: 100%;
+  justify-content: center;
 }
 
 .image-background {
@@ -166,21 +88,16 @@ img {
   background-repeat: repeat-x;
   background-position: 33% 50%;
   background-size: contain;
-  background-color: tomato;
+  background-color: #1565c0;
 }
 
-.dark {
+.sad-background-image {
   background-image: url("../assets/chicken-dark.svg");
-}
-
-.image-egg {
-  border: 1px solid blue;
-  justify-content: center;
 }
 
 .slight-shaking {
   animation: slight-shake 3s infinite;
-  perspective: 1000px;
+  
 }
 
 @keyframes slight-shake {
@@ -203,7 +120,7 @@ img {
 
 .medium-shaking {
   animation: medium-shake 2s infinite;
-  perspective: 1000px;
+  
 }
 
 @keyframes medium-shake {
@@ -226,7 +143,7 @@ img {
 
   .strong-shaking {
   animation: strong-shake 1s infinite;
-  perspective: 1000px;
+  
 }
 
 @keyframes strong-shake {
@@ -249,7 +166,7 @@ img {
 
 .stronger-shaking {
   animation: stronger-shake 1s infinite;
-  perspective: 1000px;
+  
 }
 
 @keyframes stronger-shake {
@@ -270,56 +187,22 @@ img {
   }
 }
 
-.rotateY {
-    animation: rotationY 8s infinite linear;
-    perspective: 1000px;
+.translate-y {
+    animation: translate-y 2s infinite linear;
   }
 
-  @keyframes rotationY {
-    0% {
-      transform: rotateY(0deg);
-    }
-    50% {
-      transform: rotateY(360deg);
-    }
-    100% {
-      transform: rotateY(0deg);
-    }
+@keyframes translate-y {
+  0%, 100% {
+    transform: translate(0,0px);
   }
-
-.rotate {
-    animation: rotation 5s infinite linear;
+  25% {
+    transform: translate(0,-5px);
   }
-
-  @keyframes rotation {
-    0%, 50%, 100% {
-      transform: rotate(0deg);
-    }
-    25% {
-      transform: rotate(30deg);
-    }
-
-    75% {
-      transform: rotate(-30deg);
-    }
+  50% { 
+    transform: translate(0,5px);
   }
-
-.y-move {
-    animation: y-move 2s infinite linear;
+  75% {
+    transform: translate(0,-5px);
   }
-
-  @keyframes y-move {
-    0%, 50%, 100% {
-      transform: translate(0,0px);
-    }
-    25% {
-      transform: translate(0,-5px);
-    }
-    50% { 
-      transform: translate(0,5px);
-    }
-    75% {
-      transform: translate(0,-5px);
-    }
-  }  
+}  
 </style>

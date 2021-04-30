@@ -52,21 +52,34 @@
     },
     computed: {
       hours: function(){
-        const hours = Math.floor(this.totalTime / (60*60))
-        return this.twoDigitTime(hours);
+        if(this.totalTime !== undefined) {
+          const hours = Math.floor(this.totalTime / (60*60));
+          return this.twoDigitTime(hours);   
+        } else {
+          return this.twoDigitTime(0);
+        }
       },
       minutes: function(){
-        const minutes = Math.floor((this.totalTime - (this.hours * 60 * 60)) / 60);
-        return this.twoDigitTime(minutes);
+        if(this.totalTime !== undefined) {
+          const minutes = Math.floor((this.totalTime - (this.hours * 60 * 60)) / 60);
+          return this.twoDigitTime(minutes);
+        } else {
+          return this.twoDigitTime(0);
+        }
       },
       seconds: function() {
-        const seconds = this.totalTime - (this.hours * 60 *60) - (this.minutes * 60);
-        return this.twoDigitTime(seconds);
+        if(this.totalTime !== undefined) {
+          const seconds = this.totalTime - (this.hours * 60 *60) - (this.minutes * 60);
+          return this.twoDigitTime(seconds);
+        } else {
+          console.log('undefinde follow');
+          return this.twoDigitTime(0);
+        }
       },
     },
     watch: {
       totalTime(newValue, oldValue) {
-        (newValue === 1)&&(console.log('watch',this.totalTime),clearInterval(this.timer));
+        (newValue === 0)&&(console.log('watch',this.totalTime),clearInterval(this.timer));
         (newValue === undefined)&&(console.log('watch',this.totalTime),clearInterval(this.timer));
       },
     },
