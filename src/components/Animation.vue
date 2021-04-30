@@ -6,11 +6,11 @@
         <div class="image-egg flex">
           <!-- <img class="slight-shaking" :src="eggImage" v-show="z"> -->
           <img :class="shakingAnimation" :src="eggImage" v-show="z">
+          <img class="y-move" src="../assets/hatched-chick.svg" alt="" v-show="chick">
           <!-- <img class="medium-shaking" src="../assets/craked-egg.svg" alt="" v-show="a">
           <img class="strong-shaking" src="../assets/craked-egg.svg" alt="" v-show="b">
           <img class="stronger-shaking" src="../assets/craked-egg.svg" alt="" v-show="c">
-          <img src="../assets/hatched-chick.svg" alt="" v-show="chick">
-          <img src="../assets/broken-egg.svg" alt="" v-show="brokenEgg"> -->
+          <img class="stronger-shaking" src="../assets/broken-egg.svg" alt="" v-show="brokenEgg"> -->
         </div>  
       </div>
     </div>
@@ -53,11 +53,18 @@
     computed: {
       eggImage() {
         console.log(this.time);
-        if(this.time > 20 || this.time == null) {
+        if(this.time > 20 || this.time === null) {
+          console.log('eggImage-1',this.time);
           return '/src/assets/white-egg.svg';
-        } else if(this.time <= 20) {
+        } else if( this.time >= 1) {
           console.log('eggComputed',this.time);
           return '/src/assets/craked-egg.svg';
+        } else if( this.time == 0 ) {
+          setTimeout(()=>{this.z= false, this.chick=true},1000)
+          return '/src/assets/born-egg.svg'
+        } else {
+          console.log('eggImage-2',this.time);
+          return '/src/assets/broken-egg.svg'
         }
       },
       shakingAnimation() {
@@ -66,24 +73,24 @@
           return {
             'slight-shaking': true 
           }
-        } else if (11 < this.time <= 20) {
+        } else if (this.time > 10) {
           console.log('<= 20');
           return {
             'medium-shaking': true
           }
-        } else if (6 < this.time <= 11) {
+        } else if (this.time > 6) {
           console.log('<11');
           return {
             'strong-shaking': true
           }
-        } else if (1<= this.time <= 6) {
+        } else if (this.time >= 1) {
           return {
             'stronger-shaking': true
           }
-        } else if (this.time === 0) {
-          return false
+        } else {
+          return undefined
         }
-      }
+      },
     },
     methods: {
       showA(param) {
@@ -115,6 +122,12 @@
       },
       beforeUpdate() {
         console.log(this.shakingAnimation);
+      },
+      updated() {
+        console.log('update',this.time)
+      },
+      destroyed () {
+        console.log('destroyed',this.time);
       },
     },
   }
@@ -273,4 +286,40 @@ img {
       transform: rotateY(0deg);
     }
   }
+
+.rotate {
+    animation: rotation 5s infinite linear;
+  }
+
+  @keyframes rotation {
+    0%, 50%, 100% {
+      transform: rotate(0deg);
+    }
+    25% {
+      transform: rotate(30deg);
+    }
+
+    75% {
+      transform: rotate(-30deg);
+    }
+  }
+
+.y-move {
+    animation: y-move 2s infinite linear;
+  }
+
+  @keyframes y-move {
+    0%, 50%, 100% {
+      transform: translate(0,0px);
+    }
+    25% {
+      transform: translate(0,-5px);
+    }
+    50% { 
+      transform: translate(0,5px);
+    }
+    75% {
+      transform: translate(0,-5px);
+    }
+  }  
 </style>

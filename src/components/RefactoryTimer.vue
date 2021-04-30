@@ -13,8 +13,8 @@
           <i data-feather="play" ></i>
         </div>
       </div>
-      <div class="input">
-        <input type="text" v-if="!zeroTime" >
+      <div>
+        <button type="button" @click="stop">stop stop totaltime undefined</button>
       </div>
     </div>
   </div>
@@ -38,13 +38,16 @@
     },
     emits: [ 'checkTime' ],
     methods: {
-      startTimer: function() {
+      startTimer: function () {
         this.timer = setInterval(() => this.totalTime--, 1000); //1000ms = 1 second
         this.resetButton = true;
       },
       twoDigitTime: function(time){
         console.log(time);
-        return (time < 10 ? '0' : '') + time;
+        return ((time < 10 ? '0' : '') + time);
+      },
+      stop: function () {
+        this.totalTime = undefined;
       }
     },
     computed: {
@@ -60,23 +63,11 @@
         const seconds = this.totalTime - (this.hours * 60 *60) - (this.minutes * 60);
         return this.twoDigitTime(seconds);
       },
-      // zeroTime: function() {
-      //   console.log('computed',this.totalTime);
-      //   if(this.totalTime == 0) {
-      //     clearInterval(this.timer)
-      //     return true;
-      //   } else {
-      //     return false;
-      //   }
-      // }
     },
     watch: {
       totalTime(newValue, oldValue) {
-        if(newValue == 0){
-          console.log('watch',this.totalTime);
-          clearInterval(this.timer)
-          this.totalTime = 0;
-        }
+        (newValue === 1)&&(console.log('watch',this.totalTime),clearInterval(this.timer));
+        (newValue === undefined)&&(console.log('watch',this.totalTime),clearInterval(this.timer));
       },
     },
     mounted () {
@@ -84,7 +75,8 @@
     },
     beforeUpdate() {
       console.log('beforeUpdate',this.totalTime );
-      this.$emit('checkTime',this.totalTime)
+      this.$emit('checkTime',this.totalTime);
+      (this.totalTime === undefined)&&(console.log('a'));
       // (this.totalTime == 3600) && this.startTimer();
       // (this.totalTime != 2)||(clearInterval(this.timer));
     },
