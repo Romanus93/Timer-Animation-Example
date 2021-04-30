@@ -4,12 +4,13 @@
     <div class="image-background" :class="{ dark: isActive }">
       <div class="box1">
         <div class="image-egg flex">
-          <img class="slight-shaking" src="../assets/white-egg.svg" alt="" v-show="z">
-          <img class="medium-shaking" src="../assets/craked-egg.svg" alt="" v-show="a">
+          <!-- <img class="slight-shaking" :src="eggImage" v-show="z"> -->
+          <img :class="shakingAnimation" :src="eggImage" v-show="z">
+          <!-- <img class="medium-shaking" src="../assets/craked-egg.svg" alt="" v-show="a">
           <img class="strong-shaking" src="../assets/craked-egg.svg" alt="" v-show="b">
           <img class="stronger-shaking" src="../assets/craked-egg.svg" alt="" v-show="c">
-          <img  src="../assets/hatched-chick.svg" alt="" v-show="chick">
-          <img  src="../assets/broken-egg.svg" alt="" v-show="brokenEgg">
+          <img src="../assets/hatched-chick.svg" alt="" v-show="chick">
+          <img src="../assets/broken-egg.svg" alt="" v-show="brokenEgg"> -->
         </div>  
       </div>
     </div>
@@ -26,6 +27,11 @@
 
 <script>
   export default {
+    props: {
+      time: {
+        type: Number
+      },
+    },
     data() {
       return {
         chick: false,
@@ -36,7 +42,47 @@
         c: false,
         Chick: false,
         brokenEgg: false,
-        isActive: false
+        isActive: false,
+        // ImageWhiteEgg: '/src/assets/white-egg.svg',
+        // ImageBrokenEgg: '/src/assets/broken-egg.svg'
+      }
+    },
+    beforeMount () {
+      this.time;
+    },
+    computed: {
+      eggImage() {
+        console.log(this.time);
+        if(this.time > 20 || this.time == null) {
+          return '/src/assets/white-egg.svg';
+        } else if(this.time <= 20) {
+          console.log('eggComputed',this.time);
+          return '/src/assets/craked-egg.svg';
+        }
+      },
+      shakingAnimation() {
+        console.log('shakingAnimation', this.time);
+        if(this.time> 20 || this.time == null) {
+          return {
+            'slight-shaking': true 
+          }
+        } else if (11 < this.time <= 20) {
+          console.log('<= 20');
+          return {
+            'medium-shaking': true
+          }
+        } else if (6 < this.time <= 11) {
+          console.log('<11');
+          return {
+            'strong-shaking': true
+          }
+        } else if (1<= this.time <= 6) {
+          return {
+            'stronger-shaking': true
+          }
+        } else if (this.time === 0) {
+          return false
+        }
       }
     },
     methods: {
@@ -66,7 +112,10 @@
         this.isActive = param;
         this.brokenEgg = param;
         return
-      }
+      },
+      beforeUpdate() {
+        console.log(this.shakingAnimation);
+      },
     },
   }
 </script>
@@ -207,4 +256,21 @@ img {
     transform: translate3d(10px, -12px, 0);
   }
 }
+
+.rotateY {
+    animation: rotationY 8s infinite linear;
+    perspective: 1000px;
+  }
+
+  @keyframes rotationY {
+    0% {
+      transform: rotateY(0deg);
+    }
+    50% {
+      transform: rotateY(360deg);
+    }
+    100% {
+      transform: rotateY(0deg);
+    }
+  }
 </style>

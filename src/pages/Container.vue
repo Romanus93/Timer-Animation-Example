@@ -23,18 +23,18 @@
       <span>{{ _h }} : {{ _m }} : {{ _s }}</span> <span style="margin-left: 100px"> {{ settingTime }}</span>
     </div>
     <div class="box3">
-      <button type="button" @click="setTimer"></button>
+      <button type="button" @click="setTimer">Lorem ipsum dolor sit.</button>
       <h2>output</h2>
       <span>{{ outPutH }} : {{ outPutM }} : {{ outPutS }}</span>
     </div>
     <div class="container">
-      <RefactoryTimer v-if="isVisual" :settingTime="settingTime" />
+      <RefactoryTimer v-if="isVisual" :settingTime="settingTime" @checkTime="checkTime"/>
     </div>
-    <div class="container">
+    <!-- <div class="container">
       <Timer />
-    </div>
+    </div> -->
     <div>
-      <Animation />
+      <Animation :time="time" />
     </div>
   </div>
 </template>
@@ -60,7 +60,8 @@ import Animation from '../components/Animation.vue'
         outPutM: '00',
         outPutS: '00',
         propsBoolean: false,
-        isVisual: false
+        isVisual: false,
+        time: null
       }
     },
     computed: {
@@ -109,6 +110,10 @@ import Animation from '../components/Animation.vue'
       },
       fixM () {
         this.m = Math.floor(this.m % 60);
+      },
+      checkTime (param) {
+        console.log('Container', param);
+        this.time = param;
       }
     },
     created () {
@@ -142,34 +147,11 @@ import Animation from '../components/Animation.vue'
     0% {
       transform: rotate(0deg);
     }
-    /* 12.5% {
-      transform: rotate(45deg);
-    } */
-    /* 25% {
-      transform: rotate(90deg);
-    } */
-    /* 37.5% {
-      transform: rotate(135deg);
-    } */
-    /* 50% {
-      transform: rotate(180deg);
-    } */
-    /* 62.5% {
-      transform: rotate(225deg);
-    } */
-    /* 75% {
-      transform: rotate(270deg);
-    } */
-    /* 87.5% {
-      transform: rotate(315deg);
-    } */
     100% {
       transform: rotate(360deg);
     }
   }
-/* <div class="wrapper1">
-      <div class="wrapper2"></div>
-    </div> */
+
   .wrapper1 {
     width: 90vw;
   }
@@ -179,25 +161,12 @@ import Animation from '../components/Animation.vue'
     height: 10px;
     width: 100%;
     transition-duration: 12s;
-    /* transition-timing-function: linear; */
-    /* animation-timing-function: linear; */
   }
 
   .animation {
     animation-timing-function: linear;
-    /* width: 100%; */
   }
 
-  /* @keyframes slide {
-    from {
-      transform: scaleX(0);
-    }
-    to {
-      transform: scaleX(100);
-    }
-  } */
-
-  /*------*/
   .rotateY {
     animation: rotationY 8s infinite linear;
     perspective: 1000px;
@@ -207,27 +176,9 @@ import Animation from '../components/Animation.vue'
     0% {
       transform: rotateY(0deg);
     }
-    /* 12.5% {
-      transform: rotate(45deg);
-    } */
-    /* 25% {
-      transform: rotateY(90deg);
-    } */
-    /* 37.5% {
-      transform: rotate(135deg);
-    } */
     50% {
       transform: rotateY(360deg);
     }
-    /* 62.5% {
-      transform: rotate(225deg);
-    } */
-    /* 75% {
-      transform: rotateY(270deg);
-    } */
-    /* 87.5% {
-      transform: rotate(315deg);
-    } */
     100% {
       transform: rotateY(0deg);
     }

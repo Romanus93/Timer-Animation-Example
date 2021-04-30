@@ -36,6 +36,7 @@
         isVisible: true
       }
     },
+    emits: [ 'checkTime' ],
     methods: {
       startTimer: function() {
         this.timer = setInterval(() => this.totalTime--, 1000); //1000ms = 1 second
@@ -61,7 +62,7 @@
       },
       // zeroTime: function() {
       //   console.log('computed',this.totalTime);
-      //   if(this.totalTime == 2) {
+      //   if(this.totalTime == 0) {
       //     clearInterval(this.timer)
       //     return true;
       //   } else {
@@ -71,7 +72,7 @@
     },
     watch: {
       totalTime(newValue, oldValue) {
-        if(newValue == 2){
+        if(newValue == 0){
           console.log('watch',this.totalTime);
           clearInterval(this.timer)
           this.totalTime = 0;
@@ -83,9 +84,10 @@
     },
     beforeUpdate() {
       console.log('beforeUpdate',this.totalTime );
+      this.$emit('checkTime',this.totalTime)
       // (this.totalTime == 3600) && this.startTimer();
       // (this.totalTime != 2)||(clearInterval(this.timer));
-    }
+    },
   }
 </script>
 
