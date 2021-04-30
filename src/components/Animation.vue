@@ -3,31 +3,39 @@
   <div class="animation-box">
     <div>
       <div class="box1 image-background">
-        <div class="box-egg image-egg">
-          <img class="slight-shaking" src="../assets/craked-egg.svg" alt="" width="100%" height="100%">
+        <div class="image-egg flex" v-show="Z">
+          <img class="slight-shaking" src="../assets/white-egg.svg" alt="">
         </div>
       </div>
     </div>
   </div>
   <div class="animation-box">
-    <div class="box1">
-      <div class="image-craked-egg position-wrapper">
-        <img class="medium-shaking position" src="../assets/white-egg.svg" alt="">
-        <img class="medium-shaking opacity--medium position" src="../assets/craked-egg.svg" alt="">
+    <div class="box1" v-show="A">
+      <div class="image-egg flex">
+        <img class="medium-shaking" src="../assets/craked-egg.svg" alt="">
       </div>
     </div>
   </div>
   <div class="animation-box">
-    <div class="box1">
-      <div class="image-craked-egg position-wrapper">
+    <div class="box1" v-show="B">
+      <div class="image-egg flex">
+        <img class="strong-shaking" src="../assets/craked-egg.svg" alt="">
+      </div>
+    </div>
+  </div>
+  <div class="animation-box">
+    <div class="box1" v-show="C">
+      <div class="image-egg flex position-wrapper">
         <img class="strong-shaking position" src="../assets/craked-egg.svg" alt="">
-        <img class="stronger-shaking opacity position" src="../assets/craked-egg-reverse.svg" alt="">
+        <img class="stronger-shaking position opacity" src="../assets/craked-egg.svg" alt="">
       </div>
     </div>
   </div>
   <div>
-    <button @click="showChick(true)"> 성공 </button>
-    <button @click="showEgg(true)"> 실패 </button>
+    <button @click="showA(true)"> 1.Lorem ipsum dolor sit. </button>
+    <button @click="showB(true)"> 2.Lorem ipsum dolor sit. </button>
+    <button @click="showC(true)"> 3.Lorem ipsum dolor sit. </button>
+    <button @click="showD(true)"> 4.Lorem ipsum dolor sit. </button>
   </div>  
 </div>
 </template>
@@ -37,18 +45,35 @@
     data() {
       return {
         chick: false,
-        egg: false
+        egg: false,
+        Z: true,
+        A: false,
+        B: false,
+        C: false,
+        D: false
       }
     },
     methods: {
-      showChick(param) {
-        this.chick = param;
+      showA(param) {
+        this.Z = !param;
+        this.A = param;
         return
       },
-      showEgg(param) {
-        this.egg = param
+      showB(param) {
+        this.A = !param;
+        this.B = param;
         return
-      }
+      },
+      showC(param) {
+        this.B = !param;
+        this.C = param;
+        return
+      },
+      showB(param) {
+        this.c = !param;
+        this.D = param;
+        return
+      },
     },
   }
 </script>
@@ -61,14 +86,17 @@
 }
 
 img {
-  width: 25%;
-  height: 100%;
+  width: 50%;
 }
 
 .animation-box {
   width: 100vw;
   height: 100vh;
   border: black 5px solid;
+}
+
+.flex {
+  display: flex;
 }
 
 .box1 {
@@ -78,30 +106,17 @@ img {
   height: 100%;
 }
 
-.box-egg {
-  border: 5px tomato solid;
-}
-
 .image-background {
   background-image: url("../assets/chicken-cute.svg");
   background-repeat: repeat-x;
-  background-position: 25% 50%;
+  background-position: 33% 50%;
   background-size: contain;
   background-color: tomato;
 }
 
 .image-egg {
   border: 1px solid blue;
-  /* height: 50%;
-  position: relative;
-  left: 0%;
-  top: 18%;
-  z-index: 5; */
-}
-
-.image-craked-egg {
-  width: 100%;
-  height: 100%;
+  justify-content: center;
 }
 
 .slight-shaking {
@@ -136,19 +151,19 @@ img {
 
 @keyframes medium-shake {
   10%, 90% {
-    transform: translate3d(-3px, 3px, 0);
+    transform: translate3d(-4px, 5px, 0);
   }
   
   20%, 80% {
-    transform: translate3d(3px, -2px, 0);
+    transform: translate3d(4px, -5px, 0);
   }
 
   30%, 50%, 70% {
-    transform: translate3d(-3px, 2px, 0);
+    transform: translate3d(-4px, 5px, 0);
   }
 
   40%, 60% {
-    transform: translate3d(3px, -3px, 0);
+    transform: translate3d(4px, -5px, 0);
   }
 }
 
@@ -182,24 +197,24 @@ img {
 
 @keyframes stronger-shake {
   10%, 90% {
-    transform: translate3d(-8px, 6px, 0);
+    transform: translate3d(-10px, 10px, 0);
   }
   
   20%, 80% {
-    transform: translate3d(6px, -6px, 0);
+    transform: translate3d(10px, -10px, 0);
   }
 
   30%, 50%, 70% {
-    transform: translate3d(-6px, 6px, 0);
+    transform: translate3d(-10px, 10px, 0);
   }
 
   40%, 60% {
-    transform: translate3d(6px, -8px, 0);
+    transform: translate3d(10px, -10px, 0);
   }
 }
 
 .opacity{
-  opacity: 0.02;
+  opacity: 0.4;
 }
 
 .opacity--medium{
@@ -212,10 +227,5 @@ img {
 
 .position {
   position: absolute;
-  right: 0
-}
-
-.flex {
-  display: flex;
 }
 </style>
