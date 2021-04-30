@@ -1,42 +1,35 @@
 <template>
 <div>
   <div class="animation-box">
-    <div>
-      <div class="box1 image-background">
-        <div class="image-egg flex" v-show="Z">
+    <div class="image-background">
+      <div class="box1" v-show="z">
+        <div class="image-egg flex">
           <img class="slight-shaking" src="../assets/white-egg.svg" alt="">
+        </div>  
+      </div>
+      <div class="box1" v-show="a">
+        <div class="image-egg flex">
+          <img class="medium-shaking" src="../assets/craked-egg.svg" alt="">
+        </div>
+      </div>
+      <div class="box1" v-show="b">
+        <div class="image-egg flex">
+          <img class="strong-shaking" src="../assets/craked-egg.svg" alt="">
+        </div>
+      </div>
+      <div class="box1" v-show="c">
+        <div class="image-egg flex">
+          <img class="strong-shaking" src="../assets/craked-egg.svg" alt="">
+          <!-- <img class="stronger-shaking position opacity" src="../assets/craked-egg.svg" alt=""> -->
         </div>
       </div>
     </div>
+    <div style="display:flex; justify-content: space-around">
+      <button type="button" @click="showA(true)"> 1.Lorem ipsum dolor sit. </button>
+      <button type="button" @click="showB(true)"> 2.Lorem ipsum dolor sit. </button>
+      <button type="button" @click="showC(true)"> 3.Lorem ipsum dolor sit. </button>
+    </div> 
   </div>
-  <div class="animation-box">
-    <div class="box1" v-show="A">
-      <div class="image-egg flex">
-        <img class="medium-shaking" src="../assets/craked-egg.svg" alt="">
-      </div>
-    </div>
-  </div>
-  <div class="animation-box">
-    <div class="box1" v-show="B">
-      <div class="image-egg flex">
-        <img class="strong-shaking" src="../assets/craked-egg.svg" alt="">
-      </div>
-    </div>
-  </div>
-  <div class="animation-box">
-    <div class="box1" v-show="C">
-      <div class="image-egg flex position-wrapper">
-        <img class="strong-shaking position" src="../assets/craked-egg.svg" alt="">
-        <img class="stronger-shaking position opacity" src="../assets/craked-egg.svg" alt="">
-      </div>
-    </div>
-  </div>
-  <div>
-    <button @click="showA(true)"> 1.Lorem ipsum dolor sit. </button>
-    <button @click="showB(true)"> 2.Lorem ipsum dolor sit. </button>
-    <button @click="showC(true)"> 3.Lorem ipsum dolor sit. </button>
-    <button @click="showD(true)"> 4.Lorem ipsum dolor sit. </button>
-  </div>  
 </div>
 </template>
 
@@ -46,34 +39,29 @@
       return {
         chick: false,
         egg: false,
-        Z: true,
-        A: false,
-        B: false,
-        C: false,
-        D: false
+        z: true,
+        a: false,
+        b: false,
+        c: false
       }
     },
     methods: {
       showA(param) {
-        this.Z = !param;
-        this.A = param;
+        this.z = !param;
+        this.a = param;
         return
       },
       showB(param) {
-        this.A = !param;
-        this.B = param;
+        console.log('b');
+        this.a = !param;
+        this.b = param;
         return
       },
       showC(param) {
-        this.B = !param;
-        this.C = param;
+        this.b = !param;
+        this.c = param;
         return
-      },
-      showB(param) {
-        this.c = !param;
-        this.D = param;
-        return
-      },
+      }
     },
   }
 </script>
@@ -90,8 +78,8 @@ img {
 }
 
 .animation-box {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   border: black 5px solid;
 }
 
@@ -121,8 +109,6 @@ img {
 
 .slight-shaking {
   animation: slight-shake 3s infinite;
-  /* transform: translate3d(0, 0, 0); */
-  /* backface-visibility: hidden; */
   perspective: 1000px;
 }
 
@@ -211,21 +197,5 @@ img {
   40%, 60% {
     transform: translate3d(10px, -10px, 0);
   }
-}
-
-.opacity{
-  opacity: 0.4;
-}
-
-.opacity--medium{
-  opacity: 0.2;
-}
-
-.position-wrapper {
-  position: relative;
-}
-
-.position {
-  position: absolute;
 }
 </style>
